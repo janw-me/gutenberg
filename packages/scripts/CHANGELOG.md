@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Breaking Changes
+
+-   The bundled `postcss-loader` dependency has been updated from requiring `^3.0.0` to requiring `^4.1.0` ([#27821](https://github.com/WordPress/gutenberg/pull/27821)).
+
 ## 14.0.0 (2021-03-17)
 
 ### Breaking Changes
