@@ -6,8 +6,8 @@ const { DefinePlugin } = require( 'webpack' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const postcss = require( 'postcss' );
-const { get, escapeRegExp, compact } = require( 'lodash' );
-const { basename, sep } = require( 'path' );
+const { escapeRegExp, compact } = require( 'lodash' );
+const { sep } = require( 'path' );
 const { existsSync } = require( 'fs' );
 
 /**
@@ -92,22 +92,21 @@ module.exports = {
 	},
 	mode,
 	entry: gutenbergPackages.reduce( ( memo, packageName ) => {
-		const name = camelCaseDash( packageName );
-		memo[ name ] = `./packages/${ packageName }`;
+		memo[ packageName ] = `./packages/${ packageName }`;
 
-		const modalsPath = `${ memo[ name ] }/src/navigation/modals`;
+		const frontendJSPath = `${ memo[ packageName ] }/src/frontend.js`;
 
-		if ( existsSync( modalsPath ) ) {
-			memo.modals = modalsPath;
+		if ( existsSync( frontendJSPath ) ) {
+			memo[ `${ packageName }-frontend` ] = frontendJSPath;
 		}
 
 		return memo;
 	}, {} ),
 	output: {
 		devtoolNamespace: 'wp',
-		filename: './build/[basename]/index.js',
+		filename: './build/[name]/index.js',
 		path: __dirname,
-		library: [ 'wp', '[name]' ],
+		library: [ 'wp', '[camelName]' ],
 		libraryTarget: 'window',
 	},
 	module: {
@@ -143,39 +142,20 @@ module.exports = {
 			),
 		} ),
 		new CustomTemplatedPathPlugin( {
-			basename( path, data ) {
-				let rawRequest;
-
-				const entryModule = get( data, [ 'chunk', 'entryModule' ], {} );
-				switch ( entryModule.type ) {
-					case 'javascript/auto':
-						rawRequest = entryModule.rawRequest;
-						break;
-
-					case 'javascript/esm':
-						rawRequest = entryModule.rootModule.rawRequest;
-						break;
-				}
-
-				if ( rawRequest ) {
-					return basename( rawRequest );
-				}
-
-				return path;
+			camelName( path, data ) {
+				return camelCaseDash( data.chunk.name );
 			},
 		} ),
-		new LibraryExportDefaultPlugin(
-			[
-				'api-fetch',
-				'deprecated',
-				'dom-ready',
-				'redux-routine',
-				'token-list',
-				'server-side-render',
-				'shortcode',
-				'warning',
-			].map( camelCaseDash )
-		),
+		new LibraryExportDefaultPlugin( [
+			'api-fetch',
+			'deprecated',
+			'dom-ready',
+			'redux-routine',
+			'token-list',
+			'server-side-render',
+			'shortcode',
+			'warning',
+		] ),
 		new CopyWebpackPlugin(
 			gutenbergPackages.map( ( packageName ) => ( {
 				from: `./packages/${ packageName }/build-style/*.css`,
