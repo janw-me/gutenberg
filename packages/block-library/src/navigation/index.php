@@ -121,11 +121,19 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 
 	unset( $attributes['rgbTextColor'], $attributes['rgbBackgroundColor'] );
 
-	wp_enqueue_script(
-		'core_block_navigation_load_modals',
-		plugins_url( 'gutenberg/build/modals/index.js' ),
+	// wp_enqueue_script(
+	// 'core_block_navigation_load_frontend_scripts',
+	// plugins_url( 'gutenberg/build/block-library-frontend/index.js' ),
+	// array(),
+	// null,
+	// true
+	// );
+
+	wp_register_script(
+		'core_block_navigation_load_frontend_scripts',
+		plugins_url( 'gutenberg/build/block-library-frontend/index.js' ),
 		array(),
-		null,
+		false,
 		true
 	);
 
