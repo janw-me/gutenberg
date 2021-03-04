@@ -1,1 +1,1 @@
-// console.log( 'hi this is the new modals.js' );
+console.log( 'hi this is the new modals.js' );

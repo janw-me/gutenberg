@@ -48,5 +48,6 @@
 		"html": false
 	},
 	"editorStyle": "wp-block-navigation-link-editor",
-	"style": "wp-block-navigation-link"
+	"style": "wp-block-navigation-link",
+	"script": "core_block_navigation_load_frontend_scripts"
 }
