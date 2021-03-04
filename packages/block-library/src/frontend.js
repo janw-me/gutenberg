@@ -1,4 +1,6 @@
 /**
  * Internal dependencies
  */
-import './navigation/modals';
+import * as navigationModals from './navigation/modals';
+// With no export this only works on a dev build.
+export { navigationModals };
