@@ -8,7 +8,7 @@ const TerserPlugin = require( 'terser-webpack-plugin' );
 const postcss = require( 'postcss' );
 const { escapeRegExp, compact } = require( 'lodash' );
 const { sep } = require( 'path' );
-const { existsSync } = require( 'fs' );
+const fg = require( 'fast-glob' );
 
 /**
  * WordPress dependencies
@@ -65,6 +65,31 @@ const stylesTransform = ( content ) => {
 	return content;
 };
 
+const blockNameRegex = new RegExp( /(?<=src\/).*(?=(\/script))/g );
+
+const createEntrypoints = () => {
+	const scriptPaths = fg.sync( './packages/block-library/**/script.js', {
+		ignore: [ '**/build*/**' ],
+	} );
+
+	const scriptEntries = scriptPaths.reduce( ( entries, scriptPath ) => {
+		const [ blockName ] = scriptPath.match( blockNameRegex );
+
+		return {
+			...entries,
+			[ blockName ]: scriptPath,
+		};
+	}, {} );
+
+	const packageEntries = gutenbergPackages.reduce( ( memo, packageName ) => {
+		memo[ packageName ] = `./packages/${ packageName }`;
+
+		return memo;
+	}, {} );
+
+	return { ...packageEntries, ...scriptEntries };
+};
+
 module.exports = {
 	optimization: {
 		// Only concatenate modules in production, when not analyzing bundles.
@@ -91,20 +116,20 @@ module.exports = {
 		],
 	},
 	mode,
-	entry: gutenbergPackages.reduce( ( memo, packageName ) => {
-		memo[ packageName ] = `./packages/${ packageName }`;
-
-		const frontendJSPath = `${ memo[ packageName ] }/src/frontend.js`;
-
-		if ( existsSync( frontendJSPath ) ) {
-			memo[ `${ packageName }-frontend` ] = frontendJSPath;
-		}
-
-		return memo;
-	}, {} ),
+	entry: createEntrypoints(),
 	output: {
 		devtoolNamespace: 'wp',
-		filename: './build/[name]/index.js',
+		filename: ( data ) => {
+			const { chunk } = data;
+			const { entryModule } = chunk;
+			const { rawRequest } = entryModule;
+
+			if ( rawRequest && rawRequest.includes( '/script.js' ) ) {
+				return `./build/block-library/blocks/[name]/script.js`;
+			}
+
+			return './build/[name]/index.js';
+		},
 		path: __dirname,
 		library: [ 'wp', '[camelName]' ],
 		libraryTarget: 'window',
