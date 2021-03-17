@@ -117,7 +117,7 @@ export default function useBlockDropZone( {
 
 	const dropEventHandlers = useOnBlockDrop();
 
-	const { position } = useDropZone( {
+	const { position, isDraggingOverDocument } = useDropZone( {
 		element,
 		isDisabled: isLockedAll,
 		withPosition: true,
@@ -141,10 +141,10 @@ export default function useBlockDropZone( {
 	}, [ position ] );
 
 	useEffect( () => {
-		if ( targetBlockIndex !== null ) {
-			showInsertionPoint( targetRootClientId, targetBlockIndex );
-		} else {
+		if ( ! isDraggingOverDocument ) {
 			hideInsertionPoint();
+		} else if ( targetBlockIndex !== null ) {
+			showInsertionPoint( targetRootClientId, targetBlockIndex );
 		}
-	}, [ targetBlockIndex ] );
+	}, [ targetBlockIndex, isDraggingOverDocument ] );
 }
