@@ -69,7 +69,7 @@ const blockNameRegex = new RegExp( /(?<=src\/).*(?=(\/frontend))/g );
 
 const createEntrypoints = () => {
 	const scriptPaths = fastGlob.sync(
-		'./packages/block-library/**/frontend.js',
+		'./packages/block-library/src/**/frontend.js',
 		{
 			ignore: [ '**/build*/**' ],
 		}
