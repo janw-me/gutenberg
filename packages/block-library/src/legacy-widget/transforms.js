@@ -172,12 +172,12 @@ const legacyWidgetTransforms = [
 				block,
 				transform ? transform( instance.raw ) : undefined
 			);
-			if ( ! instance?.title ) {
+			if ( ! instance.raw?.title ) {
 				return transformedBlock;
 			}
 			return [
 				createBlock( 'core/heading', {
-					content: instance.title,
+					content: instance.raw.title,
 				} ),
 				transformedBlock,
 			];
