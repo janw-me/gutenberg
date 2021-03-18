@@ -6,9 +6,7 @@ import { find } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { BlockToolbar } from '@wordpress/block-editor';
-import { Button, Dropdown, DropdownMenu, Popover } from '@wordpress/components';
-import { useViewportMatch } from '@wordpress/compose';
+import { Button, Dropdown, DropdownMenu } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 
 /**
@@ -25,7 +23,6 @@ export default function Header( {
 	isPending,
 	navigationPost,
 } ) {
-	const isLargeViewport = useViewportMatch( 'medium' );
 	const selectedMenu = find( menus, { id: selectedMenuId } );
 	const menuName = selectedMenu ? selectedMenu.name : undefined;
 	let actionHeaderText;
@@ -105,14 +102,6 @@ export default function Header( {
 					/>
 
 					<SaveButton navigationPost={ navigationPost } />
-
-					<Popover.Slot name="block-toolbar" />
-
-					{ ! isLargeViewport && (
-						<div className="edit-widgets-header__block-toolbar">
-							<BlockToolbar hideDragHandle />
-						</div>
-					) }
 				</div>
 			) }
 		</div>

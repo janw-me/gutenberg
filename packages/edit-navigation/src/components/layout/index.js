@@ -17,8 +17,10 @@ import {
 	BlockEditorKeyboardShortcuts,
 	BlockEditorProvider,
 	BlockInspector,
+	BlockToolbar,
 	__unstableUseBlockSelectionClearer as useBlockSelectionClearer,
 } from '@wordpress/block-editor';
+import { useViewportMatch } from '@wordpress/compose';
 import { useMemo, useState } from '@wordpress/element';
 
 /**
@@ -42,6 +44,7 @@ import { store as editNavigationStore } from '../../store';
 
 export default function Layout( { blockEditorSettings } ) {
 	const canvasRef = useBlockSelectionClearer();
+	const isLargeViewport = useViewportMatch( 'medium' );
 	const [ isMenuNameControlFocused, setIsMenuNameControlFocused ] = useState(
 		false
 	);
@@ -120,6 +123,15 @@ export default function Layout( { blockEditorSettings } ) {
 										<NavigationEditorShortcuts
 											saveBlocks={ savePost }
 										/>
+
+										<Popover.Slot name="block-toolbar" />
+
+										{ ! isLargeViewport && (
+											<div className="edit-widgets-header__block-toolbar">
+												<BlockToolbar hideDragHandle />
+											</div>
+										) }
+
 										<div
 											className="edit-navigation-layout__canvas"
 											ref={ canvasRef }
