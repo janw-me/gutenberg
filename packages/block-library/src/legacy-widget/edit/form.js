@@ -6,10 +6,8 @@ import { debounce } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { useSelect, useDispatch } from '@wordpress/data';
-import { store as coreStore } from '@wordpress/core-data';
+import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
-import { Spinner, Placeholder } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import {
 	useEffect,
@@ -20,22 +18,8 @@ import {
 } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
-export default function LegacyWidgetEditForm( {
-	id,
-	idBase,
-	instance,
-	isVisible,
-	setInstance,
-} ) {
-	const { widgetType, hasResolved } = useSelect( ( select ) => ( {
-		widgetType: select( coreStore ).getWidgetType( id ?? idBase ),
-		hasResolved: select( coreStore ).hasFinishedResolution(
-			'getWidgetType',
-			[ id ?? idBase ]
-		),
-	} ) );
-
-	const formRef = useRef();
+export default function Form( { id, idBase, instance, setInstance } ) {
+	const ref = useRef();
 
 	const { html, setFormData } = useForm( {
 		id,
@@ -48,7 +32,7 @@ export default function LegacyWidgetEditForm( {
 		( event ) => {
 			event.preventDefault();
 			if ( id ) {
-				setFormData( serializeForm( formRef.current ) );
+				setFormData( serializeForm( ref.current ) );
 			}
 		},
 		[ id ]
@@ -57,82 +41,65 @@ export default function LegacyWidgetEditForm( {
 	const onChange = useCallback(
 		debounce( () => {
 			if ( idBase ) {
-				setFormData( serializeForm( formRef.current ) );
+				setFormData( serializeForm( ref.current ) );
 			}
 		}, 300 ),
 		[ idBase ]
 	);
 
-	if ( ! widgetType && ! hasResolved ) {
-		return <Spinner />;
-	}
-
-	if ( ! widgetType && hasResolved ) {
-		return <Placeholder>{ __( 'Widget is missing.' ) }</Placeholder>;
-	}
-
 	return (
-		<div
-			className="wp-block-legacy-widget__edit-form"
-			hidden={ ! isVisible }
-		>
-			<h3 className="wp-block-legacy-widget__edit-form-title">
-				{ widgetType.name }
-			</h3>
-
-			<div className="wp-block-legacy-widget__edit-form-fields widget open">
-				<div className="widget-inside">
-					<ObservableForm
-						ref={ formRef }
-						className="form"
-						method="post"
-						onSubmit={ onSubmit }
-						onChange={ onChange }
-					>
-						<div
-							className="widget-content"
-							dangerouslySetInnerHTML={ { __html: html } }
+		<div className="wp-block-legacy-widget__edit-form-fields widget open">
+			<div className="widget-inside">
+				<ObservableForm
+					ref={ ref }
+					className="form"
+					method="post"
+					onSubmit={ onSubmit }
+					onChange={ onChange }
+				>
+					<div
+						className="widget-content"
+						dangerouslySetInnerHTML={ { __html: html } }
+					/>
+					{ /* <input */ }
+					{ /* 	type="hidden" */ }
+					{ /* 	name="widget-id" */ }
+					{ /* 	className="widget-id" */ }
+					{ /* 	value={ id ?? `${ idBase }-1` } */ }
+					{ /* /> */ }
+					{ /* <input */ }
+					{ /* 	type="hidden" */ }
+					{ /* 	name="id_base" */ }
+					{ /* 	className="id_base" */ }
+					{ /* 	value={ id ?? idBase } */ }
+					{ /* /> */ }
+					{ /* <input */ }
+					{ /* 	type="hidden" */ }
+					{ /* 	name="widget_number" */ }
+					{ /* 	className="widget_number" */ }
+					{ /* 	value="1" */ }
+					{ /* /> */ }
+					{ /* <input */ }
+					{ /* 	type="hidden" */ }
+					{ /* 	name="multi_number" */ }
+					{ /* 	className="multi_number" */ }
+					{ /* 	value="" */ }
+					{ /* /> */ }
+					{ /* <input */ }
+					{ /* 	type="hidden" */ }
+					{ /* 	name="add_new" */ }
+					{ /* 	className="add_new" */ }
+					{ /* 	value="" */ }
+					{ /* /> */ }
+					{ id && (
+						<input
+							type="submit"
+							name="savewidget"
+							className="button button-primary widget-control-save"
+							value={ __( 'Save' ) }
 						/>
-						{ /* <input */ }
-						{ /* 	type="hidden" */ }
-						{ /* 	name="widget-id" */ }
-						{ /* 	className="widget-id" */ }
-						{ /* 	value={ id ?? `${ idBase }-1` } */ }
-						{ /* /> */ }
-						{ /* <input */ }
-						{ /* 	type="hidden" */ }
-						{ /* 	name="id_base" */ }
-						{ /* 	className="id_base" */ }
-						{ /* 	value={ id ?? idBase } */ }
-						{ /* /> */ }
-						{ /* <input */ }
-						{ /* 	type="hidden" */ }
-						{ /* 	name="widget_number" */ }
-						{ /* 	className="widget_number" */ }
-						{ /* 	value="1" */ }
-						{ /* /> */ }
-						{ /* <input */ }
-						{ /* 	type="hidden" */ }
-						{ /* 	name="multi_number" */ }
-						{ /* 	className="multi_number" */ }
-						{ /* 	value="" */ }
-						{ /* /> */ }
-						{ /* <input */ }
-						{ /* 	type="hidden" */ }
-						{ /* 	name="add_new" */ }
-						{ /* 	className="add_new" */ }
-						{ /* 	value="" */ }
-						{ /* /> */ }
-						{ id && (
-							<input
-								type="submit"
-								name="savewidget"
-								className="button button-primary widget-control-save"
-								value={ __( 'Save' ) }
-							/>
-						) }
-					</ObservableForm>
-				</div>
+					) }
+				</ObservableForm>
 			</div>
 		</div>
 	);

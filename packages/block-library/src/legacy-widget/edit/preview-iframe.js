@@ -8,17 +8,13 @@ import { __ } from '@wordpress/i18n';
 
 const DEFAULT_HEIGHT = 300;
 
-export default function LegacyWidgetEditPreview( {
-	idBase,
-	instance,
-	isVisible,
-} ) {
-	const iframeRef = useRef();
+export default function PreviewIframe( { idBase, instance, isVisible } ) {
+	const ref = useRef();
 
 	const [ height, setHeight ] = useState( DEFAULT_HEIGHT );
 
 	const adjustHeight = useCallback( () => {
-		setHeight( iframeRef.current.contentDocument.body.scrollHeight );
+		setHeight( ref.current.contentDocument.body.scrollHeight );
 	} );
 
 	useEffect( () => {
@@ -30,7 +26,7 @@ export default function LegacyWidgetEditPreview( {
 	return (
 		<Disabled hidden={ ! isVisible }>
 			<iframe
-				ref={ iframeRef }
+				ref={ ref }
 				// TODO: This code should live with the block in index.php.
 				src={ addQueryArgs( 'themes.php', {
 					page: 'gutenberg-widgets',
