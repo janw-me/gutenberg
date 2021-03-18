@@ -17,7 +17,6 @@ import {
  */
 import './store';
 import './hooks';
-import { create as createLegacyWidget } from './blocks/legacy-widget';
 import * as widgetArea from './blocks/widget-area';
 import Layout from './components/layout';
 
@@ -36,7 +35,6 @@ export function initialize( id, settings ) {
 	if ( process.env.GUTENBERG_PHASE === 2 ) {
 		__experimentalRegisterExperimentalCoreBlocks();
 	}
-	registerBlock( createLegacyWidget( settings ) );
 	registerBlock( widgetArea );
 	render(
 		<Layout blockEditorSettings={ settings } />,

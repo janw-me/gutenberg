@@ -99,11 +99,9 @@ function gutenberg_reregister_core_block_types() {
 		),
 		__DIR__ . '/../build/edit-widgets/blocks/'  => array(
 			'block_folders' => array(
-				// 'legacy-widget',
 				'widget-area',
 			),
 			'block_names'   => array(
-				// 'legacy-widget.php' => 'core/legacy-widget',
 				'widget-area.php' => 'core/widget-area',
 			),
 		),
