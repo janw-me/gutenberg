@@ -8,7 +8,7 @@ const TerserPlugin = require( 'terser-webpack-plugin' );
 const postcss = require( 'postcss' );
 const { escapeRegExp, compact } = require( 'lodash' );
 const { sep } = require( 'path' );
-const fg = require( 'fast-glob' );
+const fastGlob = require( 'fast-glob' );
 
 /**
  * WordPress dependencies
@@ -65,15 +65,18 @@ const stylesTransform = ( content ) => {
 	return content;
 };
 
-const blockNameRegex = new RegExp( /(?<=src\/).*(?=(\/script))/g );
+const blockNameRegex = new RegExp( /(?<=src\/).*(?=(\/frontend))/g );
 
 const createEntrypoints = () => {
-	const scriptPaths = fg.sync( './packages/block-library/**/script.js', {
-		ignore: [ '**/build*/**' ],
-	} );
+	const scriptPaths = fastGlob.sync(
+		'./packages/block-library/**/frontend.js',
+		{
+			ignore: [ '**/build*/**' ],
+		}
+	);
 
 	const scriptEntries = scriptPaths.reduce( ( entries, scriptPath ) => {
-		const [ blockName ] = scriptPath.match( blockNameRegex );
+		const [ blockName ] = scriptPath.match( blockNameRegex ) || [];
 
 		return {
 			...entries,
@@ -124,8 +127,8 @@ module.exports = {
 			const { entryModule } = chunk;
 			const { rawRequest } = entryModule;
 
-			if ( rawRequest && rawRequest.includes( '/script.js' ) ) {
-				return `./build/block-library/blocks/[name]/script.js`;
+			if ( rawRequest && rawRequest.includes( '/frontend.js' ) ) {
+				return `./build/block-library/blocks/[name]/frontend.js`;
 			}
 
 			return './build/[name]/index.js';
