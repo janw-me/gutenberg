@@ -121,13 +121,17 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 
 	unset( $attributes['rgbTextColor'], $attributes['rgbBackgroundColor'] );
 
-	wp_enqueue_script(
-		'core_block_navigation_load_frontend_scripts',
-		plugins_url( 'navigation/frontend.js', __FILE__ ),
-		array(),
-		false,
-		true
-	);
+	$script_path = __DIR__ . '/navigation/frontend.js';
+
+	if ( file_exists( $script_path ) ) {
+		wp_enqueue_script(
+			'core_block_navigation_load_frontend_scripts',
+			plugins_url( 'frontend.js', $script_path ),
+			array(),
+			false,
+			true
+		);
+	}
 
 	if ( empty( $block->inner_blocks ) ) {
 		return '';
