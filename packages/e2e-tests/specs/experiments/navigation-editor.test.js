@@ -413,14 +413,18 @@ describe( 'Navigation editor', () => {
 			] );
 			await visitNavigationEditor();
 			// click in the top left corner of the canvas.
-			const navigationBlock = await page.$( '.wp-block-navigation' );
+			const navigationBlock = await page.waitForSelector(
+				'.wp-block-navigation'
+			);
 			const boundingBox = await navigationBlock.boundingBox();
 			await page.mouse.click( boundingBox.x + 5, boundingBox.y + 5 );
 
 			navigatorNameEditor = await page.waitForSelector(
 				'.block-editor-block-inspector .edit-navigation-name-editor__text-control'
 			);
-			input = navigatorNameEditor.find( 'input' );
+			input = page.$(
+				'.block-editor-block-inspector .edit-navigation-name-editor__text-control input'
+			);
 		} );
 		it( 'is displayed in inspector additions', async () => {
 			expect( navigatorNameEditor ).toBeTruthy();
@@ -434,29 +438,29 @@ describe( 'Navigation editor', () => {
 					.getAttribute( 'aria-label' )
 					.startsWith( 'Edit menu name:' )
 			);
-			menuName.simulate( 'click' );
-			expect( input.is( ':focus' ) ).toBe( true );
+			menuName.click();
+			expect( document.activeElement ).toBe( input );
 		} );
 		it( 'saves menu name upon clicking save button', async () => {
-			input.simulate( 'focus' );
+			input.focus();
 			input.type( 'newName' );
 			const saveButton = page.find(
 				'.edit-navigation-toolbar__save-button'
 			);
-			saveButton.simulate( 'click' );
-			const menuName = await page.waitForSelector(
+			saveButton.click();
+			const menuName = page.$(
 				'.edit-navigation-name-display__menu-name-button'
 			);
 			expect( menuName ).toBe( 'newName' );
 		} );
 		it( 'does not save a menu name upon clicking save button when name is empty', async () => {
 			const oldName = input.value;
-			input.type( '' );
-			input.simulate( 'focus' );
-			const saveButton = page.find(
+			input.focus();
+			page.keyboard.type( '' );
+			const saveButton = page.$(
 				'.edit-navigation-toolbar__save-button'
 			);
-			saveButton.simulate( 'click' );
+			saveButton.click();
 			const menuName = await page.waitForSelector(
 				'.edit-navigation-name-display__menu-name-button'
 			);
