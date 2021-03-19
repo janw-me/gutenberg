@@ -283,3 +283,9 @@ $color-control-label-height: 20px;
 		flex-direction: row-reverse; // This puts the chevron, which is hidden from screen readers, on the right.
 	}
 }
+
+.wp-block-navigation__responsive-container-close {
+	position: absolute;
+	top: 170px; // Arbitrary position to display close button below editor tools
+	right: 16px;
+}

@@ -102,8 +102,16 @@
 	}
 }
 
-.is-vertical .wp-block-navigation__container {
+.is-vertical .wp-block-navigation__container,
+.is-open .wp-block-navigation__container {
 	.wp-block-page-list {
 		display: block;
+	}
+}
+.is-open .wp-block-navigation__container {
+	.wp-block-page-list {
+		@include break-mobile() {
+			display: flex;
+		}
 	}
 }
