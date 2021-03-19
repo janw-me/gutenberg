@@ -1,1 +1,8 @@
-console.log( 'This was loaded from frontend.js in the navigation block' );
+/**
+ * External dependencies
+ */
+import MicroModal from 'micromodal';
+
+window.addEventListener( 'DOMContentLoaded', ( event ) => {
+	MicroModal.init();
+} );

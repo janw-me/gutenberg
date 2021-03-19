@@ -17,7 +17,12 @@ import {
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useDispatch, withSelect, withDispatch } from '@wordpress/data';
-import { PanelBody, ToggleControl, ToolbarGroup } from '@wordpress/components';
+import {
+	Button,
+	PanelBody,
+	ToggleControl,
+	ToolbarGroup,
+} from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -46,6 +51,7 @@ function Navigation( {
 	const [ isPlaceholderShown, setIsPlaceholderShown ] = useState(
 		! hasExistingNavItems
 	);
+	const [ isResponsiveMenuOpen, setResponsiveMenuOpen ] = useState( false );
 
 	const { selectBlock } = useDispatch( blockEditorStore );
 
@@ -58,6 +64,13 @@ function Navigation( {
 
 	const { navigatorToolbarButton, navigatorModal } = useBlockNavigator(
 		clientId
+	);
+
+	const responsiveContainerClasses = classnames(
+		'wp-block-navigation__responsive-container',
+		{
+			'is-open': isResponsiveMenuOpen,
+		}
 	);
 
 	const innerBlocksProps = useInnerBlocksProps(
@@ -145,7 +158,43 @@ function Navigation( {
 				) }
 			</InspectorControls>
 			<nav { ...blockProps }>
-				<ul { ...innerBlocksProps } />
+				<Button
+					data-micromodal-trigger="modal-1"
+					className="wp-block-navigation__responsive-container-open "
+					onClick={ () =>
+						setResponsiveMenuOpen( ! isResponsiveMenuOpen )
+					}
+				>
+					Open Menu
+				</Button>
+
+				<div
+					id={ `${ clientId }-modal` }
+					aria-hidden="true"
+					className={ responsiveContainerClasses }
+				>
+					<div tabIndex="-1" data-micromodal-close>
+						<div
+							role="dialog"
+							aria-modal="true"
+							aria-labelledby="modal-1-title"
+						>
+							<Button
+								aria-label="Close modal"
+								data-micromodal-close
+								className="wp-block-navigation__responsive-container-close"
+								onClick={ () => {
+									setResponsiveMenuOpen( false );
+								} }
+							>
+								Close
+							</Button>
+							<div id={ `${ clientId }-modal-content` }>
+								<ul { ...innerBlocksProps }></ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</nav>
 		</>
 	);

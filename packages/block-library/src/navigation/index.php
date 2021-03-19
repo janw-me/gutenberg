@@ -160,10 +160,27 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		)
 	);
 
-	return sprintf(
-		'<nav %1$s><ul class="wp-block-navigation__container">%2$s</ul></nav>',
-		$wrapper_attributes,
+	$responsive_container_markup = sprintf(
+		'
+		<div data-micromodal-trigger="modal-1" class="wp-block-navigation__responsive-container-open">Open Menu</div>
+	<div id="modal-1" aria-hidden="true" class="wp-block-navigation__responsive-container">
+		<div tabindex="-1" data-micromodal-close>
+			<div role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+					<button aria-label="Close modal" data-micromodal-close class="wp-block-navigation__responsive-container-close">X</button>
+				<div id="modal-1-content">
+					<ul class="wp-block-navigation__container">%1$s</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	',
 		$inner_blocks_html
+	);
+
+	return sprintf(
+		'<nav %1$s>%2$s</nav>',
+		$wrapper_attributes,
+		$responsive_container_markup
 	);
 }
 
