@@ -289,6 +289,12 @@ export function placeCaretAtHorizontalEdge( container, isReverse ) {
 
 	if ( includes( [ 'INPUT', 'TEXTAREA' ], container.tagName ) ) {
 		container.focus();
+
+		// The element may not support selection setting.
+		if ( container.selectionStart === null ) {
+			return;
+		}
+
 		if ( isReverse ) {
 			container.selectionStart = container.value.length;
 			container.selectionEnd = container.value.length;
@@ -296,6 +302,7 @@ export function placeCaretAtHorizontalEdge( container, isReverse ) {
 			container.selectionStart = 0;
 			container.selectionEnd = 0;
 		}
+
 		return;
 	}
 
