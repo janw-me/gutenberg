@@ -393,29 +393,13 @@ describe( 'Navigation editor', () => {
 		}
 	} );
 	describe( 'Menu name editor', () => {
-		let menuPostResponse, navigatorNameEditor, input;
+		let navigatorNameEditor, input;
 		beforeEach( async () => {
-			menuPostResponse = {
-				id: 4,
-				description: '',
-				name: 'New Menu',
-				slug: 'new-menu',
-				meta: [],
-				auto_add: false,
-			};
-
-			await setUpResponseMocking( [
-				...getMenuMocks( {
-					GET: assignMockMenuIds( menusFixture ),
-					POST: menuPostResponse,
-				} ),
-				...getMenuItemMocks( { GET: menuItemsFixture } ),
-			] );
 			await visitNavigationEditor();
 			await page.waitForSelector( '.wp-block-navigation' );
 			const navigationBlock = await page.$( '.wp-block-navigation' );
 			const boundingBox = await navigationBlock.boundingBox();
-			// click in the navigation editor placeholder.
+			// click on the navigation editor placeholder.
 			await page.mouse.click( boundingBox.x + 5, boundingBox.y + 5 );
 
 			const navigationNameEditorSelector =
