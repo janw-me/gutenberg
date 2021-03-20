@@ -415,7 +415,7 @@ describe( 'Navigation editor', () => {
 			await page.waitForSelector( '.wp-block-navigation' );
 			const navigationBlock = await page.$( '.wp-block-navigation' );
 			const boundingBox = await navigationBlock.boundingBox();
-			// click in the top left corner of the canvas.
+			// click in the navigation editor placeholder.
 			await page.mouse.click( boundingBox.x + 5, boundingBox.y + 5 );
 
 			const navigationNameEditorSelector =
