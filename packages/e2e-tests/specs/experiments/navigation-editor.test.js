@@ -428,12 +428,8 @@ describe( 'Navigation editor', () => {
 		} );
 
 		it( 'is focused upon clicking on menu name in toolbar', async () => {
-			const menuName = [
-				...( await page.$$( '.components-toolbar-group button' ) ),
-			].find( ( button ) =>
-				button
-					.getAttribute( 'aria-label' )
-					.startsWith( 'Edit menu name:' )
+			const menuName = await page.waitForXPath(
+				'//button[contains(@aria-label, "Edit menu name:")]'
 			);
 			await menuName.click();
 			expect( document.activeElement ).toBe( input );
@@ -449,7 +445,7 @@ describe( 'Navigation editor', () => {
 			const menuName = await page.$(
 				'.edit-navigation-name-display__menu-name-button'
 			);
-			expect( menuName ).toBe( 'newName' );
+			expect( menuName.innerText ).toBe( 'newName' );
 		} );
 		it( 'does not save a menu name upon clicking save button when name is empty', async () => {
 			const oldName = input.value;
