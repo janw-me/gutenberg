@@ -392,7 +392,7 @@ describe( 'Navigation editor', () => {
 			await pressKeyWithModifier( 'primary', 'A' );
 		}
 	} );
-	describe.only( 'Menu name editor', () => {
+	describe( 'Menu name editor', () => {
 		let menuPostResponse, navigatorNameEditor, input;
 		beforeEach( async () => {
 			menuPostResponse = {
@@ -412,22 +412,19 @@ describe( 'Navigation editor', () => {
 				...getMenuItemMocks( { GET: menuItemsFixture } ),
 			] );
 			await visitNavigationEditor();
-			// click in the top left corner of the canvas.
-			const navigationBlock = await page.waitForSelector(
-				'.wp-block-navigation'
-			);
+			await page.waitForSelector( '.wp-block-navigation' );
+			const navigationBlock = await page.$( '.wp-block-navigation' );
 			const boundingBox = await navigationBlock.boundingBox();
+			// click in the top left corner of the canvas.
 			await page.mouse.click( boundingBox.x + 5, boundingBox.y + 5 );
 
-			navigatorNameEditor = await page.waitForSelector(
-				'.block-editor-block-inspector .edit-navigation-name-editor__text-control'
-			);
-			input = page.$(
-				'.block-editor-block-inspector .edit-navigation-name-editor__text-control input'
-			);
+			const navigationNameEditorSelector =
+				'.block-editor-block-inspector .edit-navigation-name-editor__text-control';
+			navigatorNameEditor = await page.$( navigationNameEditorSelector );
+			input = await page.$( `${ navigationNameEditorSelector } input` );
 		} );
 		it( 'is displayed in inspector additions', async () => {
-			expect( navigatorNameEditor ).toBeTruthy();
+			expect( navigatorNameEditor ).toBeDefined();
 		} );
 
 		it( 'is focused upon clicking on menu name in toolbar', async () => {
@@ -438,29 +435,31 @@ describe( 'Navigation editor', () => {
 					.getAttribute( 'aria-label' )
 					.startsWith( 'Edit menu name:' )
 			);
-			menuName.click();
+			await menuName.click();
 			expect( document.activeElement ).toBe( input );
 		} );
 		it( 'saves menu name upon clicking save button', async () => {
-			input.focus();
-			input.type( 'newName' );
-			const saveButton = page.find(
+			await input.focus();
+			await input.type( 'newName' );
+			const saveButton = await page.$(
 				'.edit-navigation-toolbar__save-button'
 			);
-			saveButton.click();
-			const menuName = page.$(
+			await saveButton.click();
+			await page.waitForSelector( '.components-snackbar' );
+			const menuName = await page.$(
 				'.edit-navigation-name-display__menu-name-button'
 			);
 			expect( menuName ).toBe( 'newName' );
 		} );
 		it( 'does not save a menu name upon clicking save button when name is empty', async () => {
 			const oldName = input.value;
-			input.focus();
-			page.keyboard.type( '' );
-			const saveButton = page.$(
+			await input.focus();
+			await page.keyboard.type( '' );
+			const saveButton = await page.$(
 				'.edit-navigation-toolbar__save-button'
 			);
-			saveButton.click();
+			await saveButton.click();
+			await page.waitForSelector( '.components-snackbar' );
 			const menuName = await page.waitForSelector(
 				'.edit-navigation-name-display__menu-name-button'
 			);
