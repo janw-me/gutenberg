@@ -432,7 +432,8 @@ describe( 'Navigation editor', () => {
 				'//button[contains(@aria-label, "Edit menu name:")]'
 			);
 			await menuName.click();
-			expect( document.activeElement ).toBe( input );
+			const activeElement = await page.evaluateHandle(() => document.activeElement);
+			expect( activeElement ).toBe( input );
 		} );
 		it( 'saves menu name upon clicking save button', async () => {
 			await input.focus();
@@ -442,10 +443,12 @@ describe( 'Navigation editor', () => {
 			);
 			await saveButton.click();
 			await page.waitForSelector( '.components-snackbar' );
-			const menuName = await page.$(
+			const menuNameButton = await page.$(
 				'.edit-navigation-name-display__menu-name-button'
 			);
-			expect( menuName.innerText ).toBe( 'newName' );
+			const menuName =  await page.$eval(menuNameButton, el => el.innerText);
+
+			expect( menuName ).toBe( 'newName' );
 		} );
 		it( 'does not save a menu name upon clicking save button when name is empty', async () => {
 			const oldName = input.value;
@@ -456,9 +459,10 @@ describe( 'Navigation editor', () => {
 			);
 			await saveButton.click();
 			await page.waitForSelector( '.components-snackbar' );
-			const menuName = await page.waitForSelector(
+			const menuNameButton = await page.waitForSelector(
 				'.edit-navigation-name-display__menu-name-button'
 			);
+			const menuName =  await page.$eval(menuNameButton, el => el.innerText);
 			expect( menuName ).toBe( oldName );
 		} );
 	} );
