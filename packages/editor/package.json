@@ -55,6 +55,7 @@
 		"@wordpress/server-side-render": "file:../server-side-render",
 		"@wordpress/url": "file:../url",
 		"@wordpress/wordcount": "file:../wordcount",
+		"@wordpress/wordpress-block-editor-config": "file:../wordpress-block-editor-config",
 		"classnames": "^2.2.5",
 		"lodash": "^4.17.19",
 		"memize": "^1.1.0",

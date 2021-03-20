@@ -80,7 +80,8 @@
 		"@wordpress/url": "file:packages/url",
 		"@wordpress/viewport": "file:packages/viewport",
 		"@wordpress/warning": "file:packages/warning",
-		"@wordpress/wordcount": "file:packages/wordcount"
+		"@wordpress/wordcount": "file:packages/wordcount",
+		"@wordpress/wordpress-block-editor-config": "file:packages/wordpress-block-editor-config"
 	},
 	"devDependencies": {
 		"@actions/core": "1.2.6",

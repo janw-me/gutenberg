@@ -1638,6 +1638,12 @@
 		"parent": "packages"
 	},
 	{
+		"title": "@wordpress/wordpress-block-editor-config",
+		"slug": "packages-wordpress-block-editor-config",
+		"markdown_source": "../packages/wordpress-block-editor-config/README.md",
+		"parent": "packages"
+	},
+	{
 		"title": "Data Module Reference",
 		"slug": "data",
 		"markdown_source": "../docs/reference-guides/data/README.md",
