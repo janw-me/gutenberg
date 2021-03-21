@@ -396,11 +396,12 @@ describe( 'Navigation editor', () => {
 		let navigatorNameEditor, input;
 		beforeEach( async () => {
 			await visitNavigationEditor();
-			await page.waitForSelector( '.wp-block-navigation' );
-			const navigationBlock = await page.$( '.wp-block-navigation' );
-			const boundingBox = await navigationBlock.boundingBox();
+			const navBlock = await page.waitForSelector(
+				'div[aria-label="Block: Navigation"]'
+			);
+			const boundingBox = await navBlock.boundingBox();
 			// click on the navigation editor placeholder.
-			await page.mouse.click( boundingBox.x + 5, boundingBox.y + 5 );
+			await page.mouse.click( boundingBox.x + 25, boundingBox.y + 25 );
 
 			const navigationNameEditorSelector =
 				'.block-editor-block-inspector .edit-navigation-name-editor__text-control';
