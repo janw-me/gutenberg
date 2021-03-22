@@ -3,6 +3,8 @@
  */
 import MicroModal from 'micromodal';
 
-window.addEventListener( 'DOMContentLoaded', ( event ) => {
-	MicroModal.init();
+window.addEventListener( 'DOMContentLoaded', () => {
+	MicroModal.init( {
+		openClass: 'is-modal-open ',
+	} );
 } );

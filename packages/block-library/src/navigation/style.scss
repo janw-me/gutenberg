@@ -58,7 +58,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 
-	&.is-open {
+	&.is-modal-open {
 		display: flex;
 		flex-direction: column;
 		.wp-block-navigation__container {
@@ -73,7 +73,7 @@
 		position: relative;
 		background-color: inherit;
 
-		&.is-open {
+		&.is-modal-open {
 			flex-direction: row;
 
 			.wp-block-navigation__container {
