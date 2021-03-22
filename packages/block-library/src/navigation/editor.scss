@@ -284,8 +284,20 @@ $color-control-label-height: 20px;
 	}
 }
 
-.wp-block-navigation__responsive-container-close {
-	position: absolute;
-	top: 170px; // Arbitrary position to display close button below editor tools
-	right: 16px;
+
+/**
+ * Mobile menu.
+ */
+
+// These needs extra specificity in the editor.
+.components-button.wp-block-navigation__responsive-container-close,
+.components-button.wp-block-navigation__responsive-container-open {
+	@include break-mobile {
+		display: none;
+	}
+}
+
+// Unless static, the adminbar style handling will break in the editor.
+.wp-block-navigation__responsive-container {
+	position: revert;
 }
