@@ -25,7 +25,7 @@ import {
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
-import { closeSmall, menu, Icon } from '@wordpress/icons';
+import { close, menu, Icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -194,7 +194,7 @@ function Navigation( {
 									setResponsiveMenuOpen( false );
 								} }
 							>
-								<Icon icon={ closeSmall } />
+								<Icon icon={ close } />
 							</Button>
 							<div
 								className="wp-block-navigation__responsive-container-content"
