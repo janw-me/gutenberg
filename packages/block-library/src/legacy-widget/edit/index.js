@@ -26,13 +26,12 @@ import WidgetTypeSelector from './widget-type-selector';
 import InspectorCard from './inspector-card';
 import FormWrapper from './form-wrapper';
 import Form from './form';
-import PreviewIframe from './preview-iframe';
+import Preview from './preview';
 
 export default function Edit( props ) {
 	const { id, idBase } = props.attributes;
 	return (
 		<div { ...useBlockProps() }>
-			{ JSON.stringify( props.attributes ) }
 			{ ! id && ! idBase ? (
 				<Empty { ...props } />
 			) : (
@@ -154,7 +153,7 @@ function NotEmpty( { attributes: { id, idBase, instance }, setAttributes } ) {
 			</FormWrapper>
 
 			{ idBase && (
-				<PreviewIframe
+				<Preview
 					idBase={ idBase }
 					instance={ instance }
 					isVisible={ tab === 'preview' }

@@ -48,7 +48,7 @@ export default function Form( { id, idBase, instance, setInstance } ) {
 	);
 
 	return (
-		<div className="wp-block-legacy-widget__edit-form-fields widget open">
+		<div className="widget open">
 			<div className="widget-inside">
 				<ObservableForm
 					ref={ ref }

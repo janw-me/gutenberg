@@ -27,6 +27,7 @@ export default function PreviewIframe( { idBase, instance, isVisible } ) {
 		<Disabled hidden={ ! isVisible }>
 			<iframe
 				ref={ ref }
+				className="wp-block-legacy-widget__edit-preview"
 				// TODO: This code should live with the block in index.php.
 				src={ addQueryArgs( 'themes.php', {
 					page: 'gutenberg-widgets',
