@@ -297,7 +297,22 @@ $color-control-label-height: 20px;
 	}
 }
 
-// Unless static, the adminbar style handling will break in the editor.
-.wp-block-navigation__responsive-container {
-	position: revert;
+// Emulate the fullscreen editing inside the editor.
+.wp-block-navigation__responsive-container.is-menu-open {
+	position: fixed;
+
+	// Handle top position.
+	// For now, the editing of menu items in the mobile view only happens <600px.
+	// That means we only have to consider the big adminbar height (<783px).
+	// And in that view we also know that the toolbar is stacked.
+	body.admin-bar & {
+		top: $admin-bar-height-big + $header-height + $block-toolbar-height;
+	}
+}
+
+// Without this, the focus style isn't applied correctly.
+.wp-block-navigation__responsive-close {
+	@include break-mobile {
+		pointer-events: none;
+	}
 }

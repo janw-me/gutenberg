@@ -70,7 +70,7 @@ function Navigation( {
 	const responsiveContainerClasses = classnames(
 		'wp-block-navigation__responsive-container',
 		{
-			'is-modal-open': isResponsiveMenuOpen,
+			'is-menu-open': isResponsiveMenuOpen,
 		}
 	);
 
