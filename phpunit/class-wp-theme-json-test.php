@@ -801,7 +801,8 @@ class WP_Theme_JSON_Test extends WP_UnitTestCase {
 		$theme_json = new WP_Theme_JSON(
 			array(
 				'templateParts' => array(
-					'header' => array(
+					array(
+						'name' => 'header',
 						'area' => 'Some area',
 					),
 				),
@@ -813,7 +814,8 @@ class WP_Theme_JSON_Test extends WP_UnitTestCase {
 		$this->assertEqualSetsWithIndex(
 			$template_parts,
 			array(
-				'header' => array(
+				array(
+					'name' => 'header',
 					'area' => 'Some area',
 				),
 			)

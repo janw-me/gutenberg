@@ -128,11 +128,20 @@ function _gutenberg_add_template_part_area_info( $template_info ) {
 		$theme_data = WP_Theme_JSON_Resolver::get_theme_data()->get_template_parts();
 	}
 
-	if ( isset( $theme_data[ $template_info['slug'] ]['area'] ) ) {
-		$template_info['area'] = gutenberg_filter_template_part_area( $theme_data[ $template_info['slug'] ]['area'] );
-	} else {
-		$template_info['area'] = WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
+	$found_area = null;
+	if ( isset( $template_info['slug'] ) && is_array( $theme_data ) ) {
+		foreach ( array_values( $theme_data ) as $value ) {
+			if ( ! ( isset( $value['name'] ) && isset( $value['area'] ) ) ) {
+				continue;
+			}
+			if ( $template_info['slug'] === $value['name'] ) {
+				$found_area = $value['area'];
+				break;
+			}
+		}
 	}
+
+	$template_info['area'] = $found_area ? gutenberg_filter_template_part_area( $found_area ) : WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
 
 	return $template_info;
 }
