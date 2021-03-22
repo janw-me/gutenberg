@@ -29,8 +29,9 @@
 			display: block;
 		}
 	}
-
 }
+
+// Menu feature for mobile.
 .wp-block-navigation__responsive-container {
 	display: none;
 	position: fixed;
@@ -39,6 +40,7 @@
 	right: 0;
 	bottom: 0;
 	background-color: #fff;
+
 	/*
 		arbitrary, high z-index
 		@todo: find correct value in order to make sure
@@ -47,6 +49,7 @@
 	z-index: 10;
 	align-items: center;
 	justify-content: center;
+
 	&.is-open {
 		display: flex;
 		flex-direction: column;
@@ -61,19 +64,30 @@
 		flex-direction: row;
 		position: relative;
 		background-color: inherit;
+
 		&.is-open {
 			flex-direction: row;
+
 			.wp-block-navigation__container {
 				flex-direction: row;
 			}
 		}
 	}
+
+	// Hide empty paragraph tags caused by wpautop. @todo, need to not output them in the first place.
+	[data-micromodal-close] > p,
+	[role="dialog"] > p,
+	> p {
+		display: none;
+	}
 }
+
 .wp-block-navigation__responsive-container-open {
 	@include break-mobile {
 		display: none;
 	}
 }
+
 .wp-block-navigation__responsive-container-close {
 	position: absolute;
 	top: 60px;
@@ -85,6 +99,7 @@
 		display: none;
 	}
 }
+
 // Justification.
 .items-justified-center > ul {
 	justify-content: center;
