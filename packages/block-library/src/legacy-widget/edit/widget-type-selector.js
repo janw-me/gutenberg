@@ -6,11 +6,19 @@ import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 
-export default function WidgetTypeSelector( { selectedId, onSelect } ) {
-	// TODO: Filter out hidden widgets.
+/**
+ * Internal dependencies
+ */
+import isWidgetTypeHidden from './is-widget-type-hidden';
 
+export default function WidgetTypeSelector( { selectedId, onSelect } ) {
 	const widgetTypes = useSelect(
-		( select ) => select( coreStore ).getWidgetTypes( { per_page: -1 } ),
+		( select ) =>
+			select( coreStore )
+				.getWidgetTypes( { per_page: -1 } )
+				?.filter(
+					( widgetType ) => ! isWidgetTypeHidden( widgetType.id )
+				),
 		[]
 	);
 

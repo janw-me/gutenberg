@@ -27,6 +27,7 @@ import InspectorCard from './inspector-card';
 import FormWrapper from './form-wrapper';
 import Form from './form';
 import Preview from './preview';
+import isWidgetTypeHidden from './is-widget-type-hidden';
 
 export default function Edit( props ) {
 	const { id, idBase } = props.attributes;
@@ -103,18 +104,19 @@ function NotEmpty( { attributes: { id, idBase, instance }, setAttributes } ) {
 		<>
 			<BlockControls>
 				<ToolbarGroup>
-					{ /* TODO: Hide this if widget is hidden. */ }
-					<ToolbarButton
-						label={ __( 'Change widget' ) }
-						icon={ updateIcon }
-						onClick={ () =>
-							setAttributes( {
-								id: null,
-								idBase: null,
-								instance: null,
-							} )
-						}
-					/>
+					{ ! isWidgetTypeHidden( widgetType.id ) && (
+						<ToolbarButton
+							label={ __( 'Change widget' ) }
+							icon={ updateIcon }
+							onClick={ () =>
+								setAttributes( {
+									id: null,
+									idBase: null,
+									instance: null,
+								} )
+							}
+						/>
+					) }
 					{ idBase && (
 						<>
 							<ToolbarButton

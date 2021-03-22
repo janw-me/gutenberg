@@ -5,7 +5,7 @@ import { createBlock } from '@wordpress/blocks';
 
 const legacyWidgetTransforms = [
 	{
-		blck: 'core/calendar',
+		block: 'core/calendar',
 		widget: 'calendar',
 	},
 	{
