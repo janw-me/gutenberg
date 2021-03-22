@@ -166,7 +166,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 	<div class="wp-block-navigation__responsive-container" id="modal-1" aria-hidden="true">
 		<div class="wp-block-navigation__responsive-close" tabindex="-1" data-micromodal-close>
 			<div class="wp-block-navigation__responsive-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
-					<button aria-label="Close modal" data-micromodal-close class="wp-block-navigation__responsive-container-close">X</button>
+					<button aria-label="Close modal" data-micromodal-close class="wp-block-navigation__responsive-container-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true" focusable="false"><path d="M13 11.9l3.3-3.4-1.1-1-3.2 3.3-3.2-3.3-1.1 1 3.3 3.4-3.5 3.6 1 1L12 13l3.5 3.5 1-1z"></path></svg></button>
 				<div class="wp-block-navigation__responsive-content" id="modal-1-content">
 					<ul class="wp-block-navigation__container">%1$s</ul>
 				</div>

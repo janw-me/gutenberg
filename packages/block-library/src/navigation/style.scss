@@ -92,9 +92,12 @@
 	position: absolute;
 	top: 60px;
 	right: 16px;
-	font-size: 1rem;
-	background-color: #000;
 	color: #fff;
+
+	svg {
+		fill: currentColor;
+	}
+
 	@include break-mobile() {
 		display: none;
 	}
