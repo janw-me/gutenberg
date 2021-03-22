@@ -100,15 +100,21 @@
 	}
 }
 
+// The menu adds
+.wp-block-navigation__responsive-close {
+	width: 100%;
+}
+
 // Justification.
-.items-justified-center > ul {
+// These target the named container class to work even with the additional mobile menu containers.
+.items-justified-center .wp-block-navigation__container {
 	justify-content: center;
 }
 
-.items-justified-right > ul {
+.items-justified-right .wp-block-navigation__container {
 	justify-content: flex-end;
 }
 
-.items-justified-space-between > ul {
+.items-justified-space-between .wp-block-navigation__container {
 	justify-content: space-between;
 }

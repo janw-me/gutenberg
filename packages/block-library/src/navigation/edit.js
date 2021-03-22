@@ -169,27 +169,35 @@ function Navigation( {
 				</Button>
 
 				<div
+					className={ responsiveContainerClasses }
 					id={ `${ clientId }-modal` }
 					aria-hidden="true"
-					className={ responsiveContainerClasses }
 				>
-					<div tabIndex="-1" data-micromodal-close>
+					<div
+						className="wp-block-navigation__responsive-close"
+						tabIndex="-1"
+						data-micromodal-close
+					>
 						<div
+							className="wp-block-navigation__responsive-dialog"
 							role="dialog"
 							aria-modal="true"
 							aria-labelledby="modal-1-title"
 						>
 							<Button
+								className="wp-block-navigation__responsive-container-close"
 								aria-label="Close modal"
 								data-micromodal-close
-								className="wp-block-navigation__responsive-container-close"
 								onClick={ () => {
 									setResponsiveMenuOpen( false );
 								} }
 							>
 								X
 							</Button>
-							<div id={ `${ clientId }-modal-content` }>
+							<div
+								className="wp-block-navigation__responsive-container-content"
+								id={ `${ clientId }-modal-content` }
+							>
 								<ul { ...innerBlocksProps }></ul>
 							</div>
 						</div>

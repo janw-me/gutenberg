@@ -162,12 +162,12 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 
 	$responsive_container_markup = sprintf(
 		'
-		<div data-micromodal-trigger="modal-1" class="wp-block-navigation__responsive-container-open">Open Menu</div>
-	<div id="modal-1" aria-hidden="true" class="wp-block-navigation__responsive-container">
-		<div tabindex="-1" data-micromodal-close>
-			<div role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+		<div class="wp-block-navigation__responsive-container-open" data-micromodal-trigger="modal-1">Open Menu</div>
+	<div class="wp-block-navigation__responsive-container" id="modal-1" aria-hidden="true">
+		<div class="wp-block-navigation__responsive-close" tabindex="-1" data-micromodal-close>
+			<div class="wp-block-navigation__responsive-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
 					<button aria-label="Close modal" data-micromodal-close class="wp-block-navigation__responsive-container-close">X</button>
-				<div id="modal-1-content">
+				<div class="wp-block-navigation__responsive-content" id="modal-1-content">
 					<ul class="wp-block-navigation__container">%1$s</ul>
 				</div>
 			</div>
