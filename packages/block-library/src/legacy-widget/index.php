@@ -2,7 +2,7 @@
 
 function render_block_core_legacy_widget( $attributes ) {
 	if ( isset( $attributes['id'] ) ) {
-		$sidebar_id = gutenberg_find_sidebar_id( $attributes['id'] );
+		$sidebar_id = gutenberg_find_widgets_sidebar( $attributes['id'] );
 		return gutenberg_render_widget( $attributes['id'], $sidebar_id );
 	}
 

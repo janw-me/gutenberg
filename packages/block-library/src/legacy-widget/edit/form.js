@@ -17,6 +17,7 @@ import {
 	forwardRef,
 } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import { Button } from '@wordpress/components';
 
 export default function Form( { id, idBase, instance, setInstance } ) {
 	const ref = useRef();
@@ -61,43 +62,10 @@ export default function Form( { id, idBase, instance, setInstance } ) {
 						className="widget-content"
 						dangerouslySetInnerHTML={ { __html: html } }
 					/>
-					{ /* <input */ }
-					{ /* 	type="hidden" */ }
-					{ /* 	name="widget-id" */ }
-					{ /* 	className="widget-id" */ }
-					{ /* 	value={ id ?? `${ idBase }-1` } */ }
-					{ /* /> */ }
-					{ /* <input */ }
-					{ /* 	type="hidden" */ }
-					{ /* 	name="id_base" */ }
-					{ /* 	className="id_base" */ }
-					{ /* 	value={ id ?? idBase } */ }
-					{ /* /> */ }
-					{ /* <input */ }
-					{ /* 	type="hidden" */ }
-					{ /* 	name="widget_number" */ }
-					{ /* 	className="widget_number" */ }
-					{ /* 	value="1" */ }
-					{ /* /> */ }
-					{ /* <input */ }
-					{ /* 	type="hidden" */ }
-					{ /* 	name="multi_number" */ }
-					{ /* 	className="multi_number" */ }
-					{ /* 	value="" */ }
-					{ /* /> */ }
-					{ /* <input */ }
-					{ /* 	type="hidden" */ }
-					{ /* 	name="add_new" */ }
-					{ /* 	className="add_new" */ }
-					{ /* 	value="" */ }
-					{ /* /> */ }
 					{ id && (
-						<input
-							type="submit"
-							name="savewidget"
-							className="button button-primary widget-control-save"
-							value={ __( 'Save' ) }
-						/>
+						<Button type="submit" isPrimary>
+							{ __( 'Save' ) }
+						</Button>
 					) }
 				</ObservableForm>
 			</div>
@@ -125,7 +93,7 @@ function useForm( { id, idBase, instance, setInstance } ) {
 					let widget;
 					if ( formData ) {
 						widget = await apiFetch( {
-							path: `/wp/v2/widgets/${ id }`,
+							path: `/wp/v2/widgets/${ id }?context=edit`,
 							method: 'PUT',
 							data: {
 								form_data: formData,
@@ -133,7 +101,7 @@ function useForm( { id, idBase, instance, setInstance } ) {
 						} );
 					} else {
 						widget = await apiFetch( {
-							path: `/wp/v2/widgets/${ id }`,
+							path: `/wp/v2/widgets/${ id }?context=edit`,
 							method: 'GET',
 						} );
 					}
@@ -195,6 +163,10 @@ function serializeForm( form ) {
 }
 
 const ObservableForm = forwardRef( ( { onChange, ...props }, ref ) => {
+	// React won't call the form's onChange handler because it doesn't know
+	// about the <input>s that we add using dangerouslySetInnerHTML. We work
+	// around this by not using React's event system.
+
 	useEffect( () => {
 		const handler = () => onChange( ref.current );
 		ref.current.addEventListener( 'change', handler );
