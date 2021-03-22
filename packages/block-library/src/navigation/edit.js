@@ -25,7 +25,7 @@ import {
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
-import { closeSmall, Icon } from '@wordpress/icons';
+import { closeSmall, menu, Icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -160,13 +160,14 @@ function Navigation( {
 			</InspectorControls>
 			<nav { ...blockProps }>
 				<Button
-					data-micromodal-trigger="modal-1"
 					className="wp-block-navigation__responsive-container-open "
+					aria-label="Close menu"
+					data-micromodal-trigger="modal-1"
 					onClick={ () =>
 						setResponsiveMenuOpen( ! isResponsiveMenuOpen )
 					}
 				>
-					Open Menu
+					<Icon icon={ menu } />
 				</Button>
 
 				<div
@@ -187,7 +188,7 @@ function Navigation( {
 						>
 							<Button
 								className="wp-block-navigation__responsive-container-close"
-								aria-label="Close modal"
+								aria-label="Close menu"
 								data-micromodal-close
 								onClick={ () => {
 									setResponsiveMenuOpen( false );

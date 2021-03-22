@@ -92,10 +92,11 @@
 	position: absolute;
 	top: 60px;
 	right: 16px;
-	color: #fff;
+	color: currentColor;
 
 	svg {
 		fill: currentColor;
+		pointer-events: none;
 	}
 
 	@include break-mobile() {
