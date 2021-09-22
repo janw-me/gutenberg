@@ -338,11 +338,15 @@ export function isInserterOpened( state ) {
  *
  * @param {Object} state Global application state.
  *
- * @return {Object} The root client ID and index to insert at.
+ * @return {Object} The root client ID, index to insert at and starting filter value.
  */
 export function __experimentalGetInsertionPoint( state ) {
-	const { rootClientId, insertionIndex } = state.blockInserterPanel;
-	return { rootClientId, insertionIndex };
+	const {
+		rootClientId,
+		insertionIndex,
+		filterValue,
+	} = state.blockInserterPanel;
+	return { rootClientId, insertionIndex, filterValue };
 }
 
 /**
@@ -365,6 +369,17 @@ export function isListViewOpened( state ) {
  */
 export function isEditingTemplate( state ) {
 	return state.isEditingTemplate;
+}
+
+/**
+ * Returns true if meta boxes are initialized.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {boolean} Whether meta boxes are initialized.
+ */
+export function areMetaBoxesInitialized( state ) {
+	return state.metaBoxes.initialized;
 }
 
 /**

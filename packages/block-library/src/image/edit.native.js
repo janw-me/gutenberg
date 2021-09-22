@@ -42,7 +42,7 @@ import {
 	BlockStyles,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import { getProtocol, hasQueryArg } from '@wordpress/url';
 import { doAction, hasAction } from '@wordpress/hooks';
 import { compose, withPreferredColorScheme } from '@wordpress/compose';
@@ -121,7 +121,10 @@ export class ImageEdit extends Component {
 			},
 			linkRel: {
 				label: __( 'Link Rel' ),
-				placeholder: __( 'None' ),
+				placeholder: _x(
+					'None',
+					'Link rel attribute value placeholder'
+				),
 			},
 		};
 	}
@@ -506,11 +509,14 @@ export class ImageEdit extends Component {
 			image,
 			clientId,
 			imageDefaultSize,
-			context: { imageCrop = false } = {},
+			context,
 			featuredImageId,
 			wasBlockJustInserted,
 		} = this.props;
 		const { align, url, alt, id, sizeSlug, className } = attributes;
+		const hasImageContext = context
+			? Object.keys( context ).length > 0
+			: false;
 
 		const imageSizes = Array.isArray( this.props.imageSizes )
 			? this.props.imageSizes
@@ -624,8 +630,10 @@ export class ImageEdit extends Component {
 
 		const additionalImageProps = {
 			height: '100%',
-			resizeMode: imageCrop ? 'cover' : 'contain',
+			resizeMode: context?.imageCrop ? 'cover' : 'contain',
 		};
+
+		const imageContainerStyles = [ hasImageContext && styles.fixedHeight ];
 
 		const getImageComponent = ( openMediaOptions, getMediaOptions ) => (
 			<Badge label={ __( 'Featured' ) } show={ isFeaturedImage }>
@@ -659,7 +667,7 @@ export class ImageEdit extends Component {
 								retryMessage,
 							} ) => {
 								return (
-									<View style={ styles.isGallery }>
+									<View style={ imageContainerStyles }>
 										<Image
 											align={
 												align && alignToFlex[ align ]
@@ -683,7 +691,9 @@ export class ImageEdit extends Component {
 											url={ url }
 											shapeStyle={ styles[ className ] }
 											width={ this.getWidth() }
-											{ ...additionalImageProps }
+											{ ...( hasImageContext
+												? additionalImageProps
+												: {} ) }
 										/>
 									</View>
 								);
